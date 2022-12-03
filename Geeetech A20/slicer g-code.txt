@@ -1,0 +1,28 @@
+; A20 custom start code
+M140 S{material_bed_temperature_layer_0} ; sets the bed temp
+M190 S{material_bed_temperature_layer_0} ; waits for bed temp
+M104 S160; starts heating extruder to 160
+G28 ; homes all axis
+G29 ; auto bed-level code for BL-Touch
+G92 E0 ; Resets the extruder
+M104 S{material_print_temperature_layer_0} ; sets extruder temp
+G1 X0.1 Y20 Z0.3 F5000.0 ; moves to starts pos
+M109 S{material_print_temperature_layer_0} ; waits for extruder temp
+G1 Z2.0 F3000 ; moves z axis up little
+G1 X0.1 Y200.0 Z0.3 F1500.0 E15 ; draws the first line
+G1 X0.4 Y200.0 Z0.3 F5000.0 ; moves to the side a little
+G1 X0.4 Y20 Z0.3 F1500.0 E30 ; draws the second line
+G92 E0 ; resets extruder
+G1 Z2.0 F3000 ; moves z axis up little
+
+
+; A20 Custom End code
+M400 ; waits for the current moves to finish
+M220 S100 ; resets the speed factor override percent to default (100%)
+M221 S100 ; resets the extrude factor override percent to default (100%)
+G91 ; sets the coordinates to relative
+G1 F2400 E-3 ; retracts the filament 3mm at 40mm/s to prevent stringing
+G0 F5000 Z20 ; moves the z axis up 20mm to allow filament to ooze
+G90 ; sets the coords back to absolute
+G0 X0 Y235 F5000 ; moves the bed to the front so you can remove the print
+M84 ; disables the stepper motors 
